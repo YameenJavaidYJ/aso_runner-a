@@ -2,6 +2,11 @@ import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { db } from '@alain/database';
 
+/**
+ * BetterAuth configuration
+ * Uses extended user schema with custom fields
+ * The drizzle adapter automatically uses the user table from our schema
+ */
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: 'postgresql',
@@ -22,5 +27,7 @@ export const auth = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET || '',
   baseURL: process.env.BETTER_AUTH_URL || 'http://localhost:3001',
   basePath: '/api/auth',
+  // Custom fields in user table are automatically available
+  // BetterAuth will use the extended schema we defined
 });
 

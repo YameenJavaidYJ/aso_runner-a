@@ -1,9 +1,26 @@
-import { pgTable, text, timestamp, uuid, boolean } from 'drizzle-orm/pg-core';
+import {
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+  boolean,
+  pgEnum,
+} from 'drizzle-orm/pg-core';
 
 /**
  * BetterAuth required tables
  * Following BetterAuth schema requirements for PostgreSQL
+ * Extended with custom fields for multi-actor support
  */
+
+export const userStatusEnum = pgEnum('user_status', [
+  'active',
+  'suspended',
+  'pending_verification',
+  'deleted',
+]);
+
+export const languageEnum = pgEnum('language', ['fr', 'en']);
 
 export const user = pgTable('user', {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -11,6 +28,14 @@ export const user = pgTable('user', {
   email: text('email').notNull().unique(),
   emailVerified: boolean('emailVerified').notNull().default(false),
   image: text('image'),
+  // Extended fields
+  phone: text('phone').unique(),
+  phoneVerified: boolean('phoneVerified').default(false),
+  status: userStatusEnum('status').notNull().default('active'),
+  language: languageEnum('language').default('fr'),
+  currency: text('currency').default('XAF'),
+  lastLoginAt: timestamp('lastLoginAt'),
+  profilePicture: text('profilePicture'), // JSONB stored as text, can be parsed
   createdAt: timestamp('createdAt').defaultNow().notNull(),
   updatedAt: timestamp('updatedAt').defaultNow().notNull(),
 });
