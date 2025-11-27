@@ -1,0 +1,265 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+
+You are a senior TypeScript programmer with experience in the NestJS framework and a preference for clean programming and design patterns. Generate code, corrections, and refactorings that comply with the best industry standards, principles and nomenclature.
+
+---
+
+## Key Technologies
+
+- NestJS 10.0.0+
+
+- TypeScript 5.1.3+
+
+- MongoDB with Mongoose
+
+- Node.js v20+
+
+- JWT-based authentication
+
+- AWS integrations (S3, Secrets Manager)
+
+- SendGrid for email communication
+
+- OpenAPI/Swagger documentation
+
+## Project Structure
+
+```
+src/
+
+├── auth/                 # Authentication module with JWT, social login
+
+│   ├── decorators/       # Custom auth decorators
+
+│   ├── guards/           # Auth guards
+
+│   ├── strategy/         # Passport strategies
+
+│   ├── auth.controller.ts
+
+│   ├── auth.module.ts
+
+│   ├── auth.service.ts
+
+│   └── auth.dto.ts
+
+├── aws/                  # AWS integration
+
+│   ├── factory/          # AWS client factories
+
+│   ├── s3.service.ts
+
+│   ├── secret-manager.service.ts
+
+│   └── aws.module.ts
+
+├── common/               # Shared utilities
+
+│   ├── decorators/
+
+│   ├── dto/
+
+│   ├── filters/
+
+│   ├── guards/
+
+│   ├── interceptors/
+
+│   └── pipes/
+
+├── mailer/               # Email service
+
+│   ├── mailer.module.ts
+
+│   └── mailer.service.ts
+
+├── users/                # User management
+
+│   ├── schemas/          # MongoDB schemas
+
+│   ├── users.controller.ts
+
+│   ├── users.module.ts
+
+│   ├── users.service.ts
+
+│   └── user.dto.ts
+
+├── (...)                 # Add other modules here
+
+├── app.module.ts         # Root module
+
+└── main.ts               # Application entry point
+
+```
+
+## General Project Conventions
+
+### Formatting & Linting
+
+- **ESLint & Prettier**: Enforce a unified style with .eslintrc.js and .prettierrc.
+
+---
+
+## TypeScript General Guidelines
+
+### Basic Principles
+
+- Always annotate types for variables, function parameters, and return values.
+
+- Avoid `any` and `unknown`; create precise types and interfaces instead.
+
+- Document third-party classes and methods with JSDoc.
+
+- Use blank lines sparingly to separate logical blocks for readability.
+
+- Multiple named exports are allowed for closely related helpers; default exports for primary classes/functions.
+
+### Nomenclature
+
+- **Classes**: `PascalCase`.
+
+- **Variables, functions, methods**: `camelCase`.
+
+- **Files & directories**: `kebab-case`.
+
+- **Environment variables**: `UPPERCASE_SNAKE_CASE`.
+
+- **Enums**: `UPPERCASE_SNAKE_CASE`.
+
+- Avoid magic numbers; define reusable `const` with descriptive names.
+
+- Function names must start with a verb (e.g. `createUser`, `fetchOrders`).
+
+- Boolean variables start with verbs: `isLoading`, `hasError`, `canDelete`.
+
+- Use enums where there are predefined steps.
+
+- Use full words; standard acronyms (API, URL) and common abbreviations (`req`, `res`, `ctx`, `dto`) are permitted.
+
+### Functions & Methods
+
+- Keep functions focused; enforce single-responsibility. Extract utilities when logic grows.
+
+- Aim for a single level of abstraction per function.
+
+- Use default parameters and RO-RO (Receive Object, Return Object) to reduce parameter lists.
+
+- Favor arrow functions for very simple operations; named functions for complex logic.
+
+- Replace deep nesting with early returns or small helper functions.
+
+- Use explicit return types for public functions
+
+- Implement proper error handling with custom error types
+
+- Use function overloads for complex type scenarios
+
+- Prefer async/await over Promises
+
+- Leverage higher-order array methods (`map`, `filter`, `reduce`) instead of loops when appropriate.
+
+- Each function should do exactly one thing
+
+- Functions should be small and focused
+
+### DRY Code Practices
+
+- Shared Modules & Utilities: Centralize common logic (validation pipes, error handling, transformation) in shared or core modules. Import these wherever needed instead of duplicating code.
+
+- Custom Decorators & Interceptors: Encapsulate cross-cutting concerns (e.g., rate limiting, logging) in NestJS decorators/interceptors to avoid apex-cms in controllers/services.
+
+- DTO Inheritance & Mapped Types: Use Nest's PartialType, OmitType to derive DTOs instead of rewriting fields manually.
+
+- Generic Repositories & Services: Abstract common CRUD into a base service or repository class that can be extended by specific entity services.
+
+### AWS Integration Patterns
+
+- Use factory pattern for AWS client management as shown in README.md
+
+- Implement proper AWS service with required methods with JSDocs
+
+- Use AWS Secrets Manager for ENV Variables
+
+- Always inject AWS clients through dependency injection
+
+- Implement proper error handling and security best practices with AWS services
+
+### Authentication & Authorization
+
+- Implement JWT-based authentication with proper guards
+
+- Support social login integrations (Google, Facebook, Apple) 
+
+- Use role-based access control with custom decorators
+
+- Implement Passport.js strategies consistently
+
+### Scalability
+
+- Stateless Services & Horizontal Scaling: Design services to be stateless; persist session or cache data in Redis if needed.
+
+- Performance & Caching: Implement Redis caching or in-memory caches at service or query level; apply database indexing and query optimization for high-throughput endpoints.
+
+### Data Modeling
+
+- Use MongoDB with Mongoose for schema design
+
+- Encapsulate related data in composite types or classes.
+
+- Avoid inline validation; use class-validator for DTOs and Mongoose schema validation.
+
+- Prefer immutability: use `readonly` properties and `as const` for fixed literals.
+
+### Classes & SOLID
+
+- Adhere to SOLID principles; prefer composition over inheritance.
+
+- Define interfaces/contracts for external dependencies.
+
+- Keep classes focused: split if more than one domain responsibility or if they grow too large.
+
+### Exceptions & Logging
+
+- Use exceptions for unexpected errors; catch only to add context or recover.
+
+- Create custom exceptions by extending `HttpException` for domain-specific errors.
+
+- Use a structured logger Nest Pino with correlation IDs.
+
+### Security & Configuration
+
+- Never commit secrets; store them in a secure vault (AWS Secrets Manager).
+
+- Implement input validation with class-validator
+
+- Implement file size limits and type validation for uploads
+
+### Dependencies & Modularity
+
+- Organize code by domain: each module should be self-contained with its own `controllers`, `services`, `DTOs`, and `schemas`
+
+- Use a `common` module for cross-cutting services and utilities
+
+- Consistently define and use DTO classes for both input parameters and return values to enforce clear API contracts and type safety
+
+- Follow the factory pattern for any third-party services
+
+- Module communication should strictly occur through services, never through controllers - controllers should only be used for external API requests
+
+---
+
+## API Documentation & Versioning
+
+- Integrate `@nestjs/swagger` decorators (`@ApiProperty`, `@ApiOperation`, etc.) on DTOs and controllers.
+
+- Establish an API versioning strategy (URL prefix `/v1`, header versioning, etc.).
+
+- Use the NestJS HttpStatus enum (e.g. HttpStatus.OK) instead of numeric literals in Swagger decorators
+
+- Document API endpoints at http://localhost:3001/api
+

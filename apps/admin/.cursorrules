@@ -1,0 +1,552 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+
+You are a senior TypeScript programmer with experience in the NextJS framework and a preference for clean programming and design patterns. Generate code, corrections, and refactorings that comply with the best industry standards, principles and nomenclature.
+
+
+
+## Key Technologies
+
+- NextJS 15.0.0+
+
+- ReactJS 19.0.0+
+
+- Bun runtime
+
+- TypeScript 5.1.3+
+
+- TailwindCSS 4.0.0+
+
+- ShadCN/ui 2.0.0+
+
+- Zustand 5.0.5+
+
+- Zod 3.25.20+
+
+- @t3-oss/env-nextjs 0.13.4+
+
+- BetterAuth for authentication
+
+
+
+## Project Structure
+
+```
+
+public/                     # Public App Static Assets
+
+├── images/                 # Image assets
+
+app/                        # App Routes and Layouts
+
+├── (auth)/                 # Authentication related routes
+
+│   ├── _components/        # Private Components (Auth Group)
+
+│   ├── sign-in/            # Sign In Route
+
+│   │   └── page.tsx        # Sign In Page
+
+│   └── layout.tsx          # Auth Group Layout
+
+├── (app)/                  # Main application routes (Protected)
+
+├── api/                    # API Route Handlers
+
+│   └── stripe/             # API Route
+
+│       └── route.tsx       # API Handler
+
+├── globals.css             # Global styles
+
+├── layout.tsx              # Root layout
+
+└── favicon.ico             # Favicon
+
+components/                 # Global Reusable UI Components
+
+├── ui/                     # ShadCN UI components
+
+├── table/                  # Table components
+
+├── sidebar/                # Sidebar components
+
+├── forms/                  # Form components
+
+├── CustomButton.tsx        # Custom button component
+
+├── DarkModeToggle.tsx      # Dark mode toggle
+
+├── Navbar.tsx              # Navigation bar
+
+├── Spinner.tsx             # Loading spinner
+
+└── AppSidebar.tsx          # Application sidebar
+
+context/                    # React Context providers
+
+constants/                  # Application constants
+
+hooks/                      # Custom React hooks
+
+lib/                        # Utility libraries
+
+├── api/                    # API utilities
+
+├── env/                    # Environment utilities (@t3-oss)
+
+├── auth.ts                 # Authentication utilities
+
+├── utils.ts                # General utilities
+
+└── cookies.ts              # Cookie management
+
+middleware.ts               # Next.js middleware
+
+schemas/                    # Zod schemas for validation
+
+```
+
+
+
+## React Best Practices
+
+
+
+### Component Architecture
+
+- Use functional components with TypeScript interfaces
+
+- Define components using the function keyword for better stack traces
+
+- Extract reusable logic into custom hooks only for client components
+
+- Implement proper component composition
+
+- Implement proper cleanup in useEffect hooks if needed
+
+- Leverage React 19's new useFormState and useFormStatus hooks for form management
+
+- Use the new `useOptimistic` hook for optimistic UI updates
+
+
+
+### React Performance Optimization
+
+- Use `use()` for data fetching in client components
+
+- Utilize React 19's built-in compiler for automatic optimizations
+
+- Avoid inline function definitions in TSX
+
+- Implement code splitting using dynamic imports in client components
+
+- Implement proper key props in lists (avoid using index as key)
+
+- Use React 19's automatic memoization where appropriate
+
+- Consider using React's `<Suspense>` for loading states with `use()`
+
+- Use the new Document Model for simplified document management
+
+- Leverage the new form hooks (useFormState, useFormStatus)
+
+- Take advantage of the improved server components
+
+- Use the new useOptimistic hook for optimistic UI updates
+
+
+
+### State Management
+
+- Use only when absolutely necessary.
+
+- Only use for client side interactions (e.g. Storing User Cart Data)
+
+- Use Zustand as the primary state management solution for global application state
+
+- Structure Zustand stores by domain (e.g., authStore, userStore, cartStore)
+
+- Implement proper TypeScript types for store state and actions
+
+- Use middleware when appropriate:
+
+  - `persist` for persisting state to localStorage/sessionStorage
+
+  - `immer` for simpler state updates with mutable syntax
+
+  - `devtools` during development for debugging
+
+- Keep stores small and focused on a single domain
+
+- Separate state from actions in your store definition
+
+- Use TypeScript to define store types for better type safety
+
+- Implement selectors to prevent unnecessary re-renders
+
+- Consider splitting large stores into slices for better organization
+
+- Use proper naming conventions for actions (e.g., `setUser`, `incrementCount`)
+
+- Export store hooks rather than the store itself
+
+
+
+## NextJS Conventions
+
+
+
+### Core Concepts
+
+- Utilize App Router for routing
+
+- Implement proper metadata management
+
+- Use proper caching strategies with the enhanced NextJS cache system
+
+- Implement proper error boundaries
+
+- Leverage the improved parallel routes feature for complex layouts
+
+- Utilize the enhanced server actions with improved type safety
+
+- Take advantage of the new partial prerendering capabilities
+
+- Use the improved image optimization features
+
+- Leverage the enhanced middleware capabilities
+
+- Use the new built-in SEO features
+
+
+
+### Components and Features
+
+- Use Next.js built-in components:
+
+  - Image component for optimized images
+
+  - Link component for client-side navigation
+
+  - Script component for external scripts
+
+- Implement proper loading states using loading.tsx
+
+- Use proper data fetching methods:
+
+  - Server Components: Direct fetch using async/await
+
+  - Server Actions: Enhanced in NextJS 15 with improved type safety
+
+  - Client Components: use() hook with fetch or third-party libraries
+
+
+
+### Server Components
+
+- Default to Server Components
+
+- Use URL query parameters for data fetching and server state management
+
+- Use 'use client' directive only when necessary:
+
+  - Event listeners
+
+  - Browser APIs
+
+  - State management
+
+  - Client-side-only libraries
+
+  - Browser interactivity (onClick, onChange)
+
+- Take advantage of streaming with React Suspense
+
+
+
+### Request Handling
+
+- Use `middleware.ts` to intercept any requests
+
+- Use Route Handlers custom request handlers
+
+
+
+## UI and Styling Guidelines
+
+
+
+### Component Libraries
+
+- Use Shadcn UI for consistent, accessible component design
+
+- Integrate Radix UI primitives for customizable, accessible UI elements
+
+- Apply composition patterns to create modular, reusable components
+
+- Global components should stay in `/components`
+
+- Prefer route level components and keep them in `[route]/_components/`
+
+
+
+### Styling Guidelines
+
+- Use Tailwind CSS 4.0.0+ for styling, leveraging the new features
+
+- Design with mobile-first, responsive principles for flexibility across devices
+
+- Implement dark mode using the ShadCN/ui Theme Provider
+
+- Ensure color contrast ratios meet WCAG 2.1 AA standards for accessibility
+
+- Maintain consistent spacing values to establish visual harmony
+
+- Define CSS variables for theme colors and spacing in globals.css
+
+- Utilize Tailwind's container queries for more fine-grained responsive design
+
+
+
+## Error Handling and Validation
+
+
+
+### Form Validation
+
+- Use Zod for schema validation
+
+- Implement proper error messages
+
+- Use React Hook Form with Zod resolver for client-side validation
+
+- Utilize React 19's useFormState and useFormStatus hooks for server-side validation
+
+
+
+### Error Boundaries
+
+- Use error boundaries to catch and handle errors in React component trees
+
+- Create dedicated error.tsx files for route level errors
+
+- Log caught errors to an external service for tracking and debugging
+
+- Design user-friendly fallback UIs to display when errors occur
+
+
+
+## Security
+
+- Implement input sanitization to prevent XSS attacks
+
+- Use DOMPurify for sanitizing HTML content
+
+- Utilize BetterAuth for authentication
+
+- Implement proper CSRF protection using NextJS built-in protection
+
+- Use Content-Security-Policy headers in next.config.js
+
+- Implement rate limiting for API routes and server actions
+
+- Validate and sanitize all form inputs using Zod
+
+- Use HTTP-only cookies for sensitive data
+
+
+
+## Internationalization (i18n)
+
+- Use NextJS 15's enhanced built-in i18n support
+
+- Implement proper locale detection and routing
+
+- Use proper number and date formatting with Intl APIs
+
+- Implement proper RTL support with Tailwind's dir attribute
+
+- Use proper currency formatting with Intl.NumberFormat
+
+- Consider message extraction tools for managing translations
+
+
+
+## General Project Conventions
+
+
+
+### Formatting & Linting
+
+- **ESLint & Prettier**: Enforce a unified style with .eslintrc.js and .prettierrc
+
+- Use TypeScript ESLint plugin for TypeScript-specific rules
+
+- Implement pre-commit hooks with Husky to enforce code quality
+
+
+
+## TypeScript General Guidelines
+
+
+
+### Basic Principles
+
+- Always annotate types for variables, function parameters, and return values
+
+- Avoid `any` and `unknown`; create precise types and interfaces instead
+
+- Document third-party classes and methods with JSDoc
+
+- Use blank lines sparingly to separate logical blocks for readability
+
+- Multiple named exports are allowed for closely related helpers; default exports for primary components/functions
+
+- Prefer functional and declarative programming patterns over imperative
+
+- Emphasize type safety and static analysis
+
+- Practice component-driven development
+
+- Limit line length to 80 characters
+
+- Always handle error parameters in callbacks
+
+- Use `switch` statements instead of `if` where appropriate
+
+
+
+### Nomenclature
+
+- **Components**: `PascalCase`
+
+- **Variables, functions, methods**: `camelCase`
+
+- **Files & directories**:
+
+  - Routes/Hooks (e.g. sign-in, use-mobile, etc.): `kebab-case`
+
+  - All other files: `PascalCase` for components, `camelCase` for utilities
+
+- **Environment variables**: `UPPERCASE_SNAKE_CASE`
+
+- **Enums**: `PascalCase` for the enum name, `UPPERCASE_SNAKE_CASE` for values
+
+- Avoid magic numbers; define reusable `const` with descriptive names
+
+- Function names must start with a verb (e.g. `createUser`, `fetchOrders`)
+
+- Boolean variables start with verbs: `isLoading`, `hasError`, `canDelete`
+
+- Use enums where there are predefined steps
+
+- Prefix event handlers with 'handle': handleClick, handleSubmit
+
+- Prefix boolean variables with verbs: isLoading, hasError, canSubmit
+
+- Prefix custom hooks with 'use': useAuth, useForm
+
+- Use full words; standard acronyms (API, URL) and common abbreviations (`req`, `res`, `ctx`, `dto`) are permitted
+
+
+
+### Functions & Methods
+
+- Keep functions focused; enforce single-responsibility
+
+- Aim for a single level of abstraction per function
+
+- Use default parameters and RO-RO (Receive Object, Return Object) pattern
+
+- Favor arrow functions for very simple operations; named functions for complex logic
+
+- Replace deep nesting with early returns or small helper functions
+
+- Use explicit return types for public functions
+
+- Implement proper error handling with custom error types
+
+- Use function overloads for complex type scenarios
+
+- Prefer async/await over Promises
+
+- Leverage higher-order array methods (`map`, `filter`, `reduce`) instead of loops
+
+- Each function should do exactly one thing
+
+- Functions should be small and focused
+
+
+
+### DRY Code Practices
+
+- Shared Components: Centralize common components in `components`
+
+- Utilities: Centralize common logic in `lib/utils.ts`
+
+- Server Actions: Create a singular file for each entity (e.g. `actions/auth.ts`)
+
+- Define schemas in `schemas` and reuse across the application
+
+
+
+### Data Modeling
+
+- Use Zod for schema design and validation
+
+- Encapsulate related data in composite types
+
+- Prefer immutability: use `readonly` properties and `as const` for fixed literals
+
+- Consider using Zod's infer for deriving TypeScript types from schemas
+
+
+
+### Classes & SOLID
+
+- Adhere to SOLID principles; prefer composition over inheritance
+
+- Define interfaces/contracts for external dependencies
+
+- Keep classes focused: split if more than one domain responsibility
+
+
+
+### Exceptions & Logging
+
+- Use exceptions for unexpected errors; display errors using Sonner toast
+
+- Use try-catch blocks whenever making API requests
+
+- Implement proper error tracking and monitoring
+
+- Log errors with contextual information for debugging
+
+
+
+### Security & Configuration
+
+- Never commit secrets; store them in a `.env.local` file
+
+- Use @t3-oss/env-nextjs for type-safe environment variables
+
+- Implement input validation with Zod schemas
+
+- Implement file size limits and type validation for uploads
+
+
+
+### Dependencies & Modularity
+
+- Organize code by domain: each module should be self-contained
+
+- Use a `lib/utils.ts` file for cross-cutting utilities
+
+- Consistently define and use Zod schemas for type safety
+
+- Minimize external dependencies to reduce bundle size
+
